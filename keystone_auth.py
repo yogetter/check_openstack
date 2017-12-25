@@ -13,7 +13,7 @@ class OSClient(object):
     """
     EXPIRATION_TOKEN_DELTA = datetime.timedelta(0, 30)
 
-    def __init__(self, username="admin", password="LS8ffSxHf7TqNxdEIbL5hVsdrchXKmZ0gIMdtyoy", tenant="admin", keystone_url="http://192.168.0.250:5000/v2.0"):
+    def __init__(self, username="", password="", tenant="", keystone_url=""):
         self.username = username
         self.password = password
         self.tenant_name = tenant
