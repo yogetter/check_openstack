@@ -9,13 +9,13 @@ def helpMsg():
         print 'Flags:'
         print '  -H  openstack endpoint address ex: 192.168.0.1'
         print '  -p  openstack admin password'
-        print '  -w  <number> : Global Warning level for nova service'
-        print '  -c  <number> : Global Critical level for nova service'
-        print '  -h  Show this page'
+        print '  -w  <number> : Global Warning level for service'
+        print '  -c  <number> : Global Critical level for service'
+        print '  --help  Show this page'
         print ''
 
 def checkArgs(argv):
-        if len(argv) == 2 and '-h' in argv:
+        if len(argv) == 2 and '--help' in argv:
                 helpMsg()
                 sys.exit(0)
         if len(argv) != 9:

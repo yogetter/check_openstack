@@ -57,6 +57,8 @@ class OSClient(object):
         self.token = None
         self.valid_until = None
 
+    def get_projectId(self):
+	return self.tenant_id
     def get_token(self):
         self.clear_token()
         data = json.dumps({
