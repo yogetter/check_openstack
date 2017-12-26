@@ -1,0 +1,37 @@
+#!/bin/python
+# coding: utf-8
+from keystone_auth import OSClient
+from tool import checkArgs, checkError, helpMsg
+import requests, sys
+
+#Get endpoint, passwd, critical, warning
+args = checkArgs(sys.argv)
+#print args
+
+#Get Openstack auth token
+auth = OSClient('admin', args['passwd'], 'admin', 'http://' + args['endpoint'] + ':5000/v2.0')
+token = auth.get_token()
+projectId = auth.get_projectId()
+
+#Get Cinder service list
+header = {'X-Auth-Token': token}
+r = requests.get('http://' + args['endpoint'] + ':8776/v2/' + projectId + '/os-services', headers=header)
+data = r.json()
+checkError(data)
+runningService = 0
+#print data
+
+#Check Cinder service state
+for state in data['services']:
+	if state['state'] == 'up':
+		runningService += 1
+
+if runningService < args['warning']  and runningService > args['critical']:
+	print 'Cinder is Warning, running services:', runningService
+	sys.exit(1)
+elif runningService < args['critical']:
+	print 'Cinder is Critical, running services:', runningService 
+	sys.exit(2)
+else:
+	print 'Cinder is Ok, running services:', runningService 
+	sys.exit(0)
